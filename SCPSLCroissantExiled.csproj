@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>C:\Users\Utilisateur\AppData\Roaming\EXILED\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,8 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\Exiled\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Lib.Harmony.2.2.2\lib\net48\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.API">
       <HintPath>..\Exiled\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
@@ -55,6 +61,9 @@
     <Reference Include="Exiled.Permissions">
       <HintPath>..\Exiled\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
     </Reference>
+    <Reference Include="RueI, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RueI.2.0.5\lib\net48\RueI.dll</HintPath>
+    </Reference>
     <Reference Include="SemanticVersioning">
       <HintPath>..\Exiled\EXILED\Plugins\dependencies\SemanticVersioning.dll</HintPath>
     </Reference>
@@ -67,12 +76,38 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CGR\GlobalCustomRoles.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Croissant.cs" />
+    <Compile Include="CGR\Alzheimer.cs" />
+    <Compile Include="CGR\Asthmatique.cs" />
+    <Compile Include="CGR\Diabetique.cs" />
+    <Compile Include="CR\Humans\Enfant.cs" />
+    <Compile Include="CR\Humans\GambleAddict.cs" />
+    <Compile Include="CR\Humans\Guard914.cs" />
+    <Compile Include="CR\Humans\HeadGuard.cs" />
+    <Compile Include="CR\Humans\ZoneManager.cs" />
+    <Compile Include="CR\SCP\PaperDoctor.cs" />
+    <Compile Include="CR\SCP\SmallPapy.cs" />
+    <Compile Include="CR\SCP\TallNut.cs" />
+    <Compile Include="CR\SCP\UltraDog.cs" />
+    <Compile Include="CR\CustomRoles.cs" />
+    <Compile Include="GlobalEvent.cs" />
+    <Compile Include="GlobalEventController.cs" />
+    <Compile Include="Handlers\MapHandler.cs" />
+    <Compile Include="Handlers\PlayerHandler.cs" />
     <Compile Include="Handlers\Scp173Handler.cs" />
+    <Compile Include="Handlers\ServerHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
