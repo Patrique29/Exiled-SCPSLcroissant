@@ -25,23 +25,24 @@ namespace SCPSLCroissantExiled.Handlers
         private readonly Croissant _plugin;
         public void OnRoundStarted()
         {
+			
             try
             {
-				Log.Info($"Round Ended");
+				Log.Info($"Uninit the parameter of last round");
 				_ = Timing.KillCoroutines();
 				GEC.UnInit();
-			}
-			catch (Exception ex)
+			}catch (Exception ex)
             {
-
+                Log.Info("first round of the server");
             }
-			_plugin.InitRoom();
+			
             foreach(Player p in Player.List)
             {
                 p.DisableAllEffects();
             }
+			Log.Info($"init new parameter");
 			//GEC.SetAllGE(new Type[] { typeof(Speed), typeof(SystemMalfunction),typeof(CustomRolesController),typeof(Yar), typeof(TPRandom), typeof(KillItWhileItsSmall) });
-			GEC.SetAllGE(new Type[] { typeof(CustomRolesController),typeof(CustomGlobalRolesController) });
+            GEC.SetAllGE(new Type[] { typeof(Speed) });
 			Log.Info($"nb GE actif : {GEC.ChooseRandomGE()}");
 			GEC.Announcement();
 			GEC.Init();
@@ -53,17 +54,19 @@ namespace SCPSLCroissantExiled.Handlers
             {
                 _plugin.Coef = 1;
             }
+            
+			_plugin.FF();
 
-
-			Timing.RunCoroutine(_plugin.Update());
-            _plugin.FF();
-
-
+            
 			Log.Info($"Round Started");
 		}
 
 
-
+		public void OnRoundEnded(RoundEndedEventArgs ev)
+		{
+            
+			Log.Info($"Round ended {ev.LeadingTeam}");
+		}
 
     }
 }

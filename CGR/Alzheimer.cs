@@ -38,7 +38,7 @@ namespace SCPSLCroissantExiled.GE.CGR
 
 		public override string Desc()
 		{
-			return "<align=right>Tu commences à Intercom mais tu sais plus trop pourquoi";
+			return "<align=right>Tu commences à Intercom\n mais tu sais plus trop pourquoi";
 		}
 
 		public override string ToString()

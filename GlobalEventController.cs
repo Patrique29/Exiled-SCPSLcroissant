@@ -18,6 +18,7 @@ namespace SCPSLCroissantExiled
 {
 	public static class GlobalEventController
 	{
+		public static List<CoroutineHandle> handles;
 		/// <summary>
 		/// The list of activated Global Events
 		/// </summary>
@@ -65,6 +66,7 @@ namespace SCPSLCroissantExiled
 			GlobalEvent[] result;
 			int index = numberOfGE;
 			if (GE is null) return -1;
+			if( GE.Count == 0 ) return -1;
 			if (numberOfGE > GE.Count)
 			{
 				index = 1;
@@ -99,12 +101,8 @@ namespace SCPSLCroissantExiled
 		
 		public static int ResetGE()
 		{
-			if(Round.InProgress) 
-			{
-				Log.Error($"Round in progress cannot reset the Global Events");
-				return -1;
-			}
 			activeGE = null;
+			Log.Info("Reset OK");
 			return 0;
 		}
 
@@ -117,6 +115,7 @@ namespace SCPSLCroissantExiled
 			int chance = 1;
 			if (UnityEngine.Random.Range(0f, 1f) <= Config.Chance2GE) chance = 2;
 			NbGE = ChooseGE(allGE, chance);
+			if(NbGE < 0) { return NbGE; }
 			foreach(GlobalEvent g in activeGE.ToList())
 			{
 				if(g is Yar)
@@ -160,6 +159,7 @@ namespace SCPSLCroissantExiled
 		/// <returns>a String</returns>
 		private static String AllGENames()
 		{
+			if (activeGE == null || activeGE.Count == 0) return "";
 			String result = "";
 			for(int i =0; i < activeGE.Count;i++)
 			{ 
@@ -230,7 +230,12 @@ namespace SCPSLCroissantExiled
 			foreach (GlobalEvent globalEvent in activeGE)
 			{
 				Log.Info($"active Global events {globalEvent}");
-				globalEvent?.Init();
+				try
+				{
+					globalEvent?.Init();
+				}
+				catch(Exception e) { }
+				
 			}
 			
 		}
@@ -239,7 +244,19 @@ namespace SCPSLCroissantExiled
 		{
 			foreach (GlobalEvent globalEvent in activeGE)
 			{
-				globalEvent?.UnInit();
+				Log.Info($"deactivating Global events : {globalEvent}");
+				try
+				{
+					globalEvent?.UnInit();
+				}catch (Exception)
+				{
+
+				}
+				
+			}
+			foreach (CoroutineHandle handle in handles)
+			{
+				Log.Info($"Handle : {Timing.IsRunning(handle)}");
 			}
 			ResetGE();
 		}

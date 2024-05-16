@@ -16,8 +16,15 @@ namespace SCPSLCroissantExiled.Handlers
         }
         public void OnBlinking(BlinkingEventArgs ev)
         {
-            if(GEC.IsEnable(typeof(GE.Speed)))
-                ev.BlinkCooldown = Config.BlinkCooldown;
+            try
+            {
+				if (GEC.IsEnable(typeof(GE.Speed)))
+					ev.BlinkCooldown = Config.BlinkCooldown;
+			}catch (Exception ex)
+            {
+
+            }
+            
         }
     }
 }

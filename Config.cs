@@ -50,5 +50,6 @@ namespace SCPSLCroissantExiled
         public static bool isZoneManagerEnabled { get; private set; } = true;
         public static int nbZoneManager { get; private set; } = 1;
 		public static float chanceZoneManager { get; private set; } = 0.5f;
+
 	}
 }

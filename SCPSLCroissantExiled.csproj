@@ -97,8 +97,15 @@
     <Compile Include="CR\SCP\TallNut.cs" />
     <Compile Include="CR\SCP\UltraDog.cs" />
     <Compile Include="CR\CustomRoles.cs" />
-    <Compile Include="GlobalEvent.cs" />
+    <Compile Include="GlobalEvents\GlobalEvent.cs" />
     <Compile Include="GlobalEventController.cs" />
+    <Compile Include="GlobalEvents\CustomGlobalRolesController.cs" />
+    <Compile Include="GlobalEvents\CustomRolesController.cs" />
+    <Compile Include="GlobalEvents\KillItWhileItsSmall.cs" />
+    <Compile Include="GlobalEvents\Speed.cs" />
+    <Compile Include="GlobalEvents\SystemMalfunction.cs" />
+    <Compile Include="GlobalEvents\TPRandom.cs" />
+    <Compile Include="GlobalEvents\Yar.cs" />
     <Compile Include="Handlers\MapHandler.cs" />
     <Compile Include="Handlers\PlayerHandler.cs" />
     <Compile Include="Handlers\Scp173Handler.cs" />

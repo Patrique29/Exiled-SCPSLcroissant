@@ -36,12 +36,6 @@ namespace SCPSLCroissantExiled
         /// <summary>
         /// A list of room used for the DoorStuck and Blackout
         /// </summary>
-        private List<Room> rooms;
-        private List<Room> Ez;
-        private List<Room> Hcz;
-        private List<Room> Lcz;
-        private List<Room> all;
-
         public CoroutineHandle handle;
         public float Coef { get; set; }
 
@@ -63,7 +57,6 @@ namespace SCPSLCroissantExiled
         {
             RegisterEvents();
 
-            rooms = new List<Room>();
 			RueI.RueIMain.EnsureInit();
 			Log.Info($"Speupeuceux on");
             base.OnEnabled();
@@ -74,11 +67,6 @@ namespace SCPSLCroissantExiled
 		public override void OnDisabled()
         {
             UnregisterEvents();
-            rooms = null;
-            Ez = null;
-            Hcz = null;
-            Lcz = null;
-            all = null;
             Log.Info($"Speupeuceux off");
             base.OnDisabled();
         }
@@ -101,6 +89,7 @@ namespace SCPSLCroissantExiled
             Exiled.Events.Handlers.Server.RoundStarted += _server.OnRoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole += _player.OnChangingRole;
             Exiled.Events.Handlers.Map.Generated += _map.OnGenerated;
+            Exiled.Events.Handlers.Server.RoundEnded += _server.OnRoundEnded;
             
 
 		}
@@ -120,197 +109,6 @@ namespace SCPSLCroissantExiled
             _server = null;
             _map = null;
         }
-
-
-		/// <summary>
-		/// the main loop of DoorStuck and Blackout
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerator<float> Update()
-        {
-            for (; ; )
-            {
-                Log.Info($"wait cooldown")
-				// temps d'attente entre le max et le min
-				//yield return Timing.WaitForSeconds();
-				; yield return Timing.WaitForSeconds(UnityEngine.Random.Range(Config.UpdateCooldownMin, Config.UpdateCooldownMax)*Coef)
-
-                //DoorStuck
-                ; if (UnityEngine.Random.Range(0f, 1f) < Config.chanceDS)
-                {
-                    Log.Info($"DoorStuck");
-                    float chanceZone = UnityEngine.Random.Range(0f, 1f);
-                    // 1 Lcz , 2 Hcz, 3 Ez, 4 All
-                    int zone = 3;
-                    String message = "Entrance zone";
-                    String sub = "<color=#ffff00>Entrance</color> zone";
-
-                    if (chanceZone <= 0.33f) { zone = 1; message = "Light Containment Zone "; sub = "<color=#1BBB9B>Light</color> containment zone"; }
-                    else if (chanceZone > 0.33f && chanceZone <= 0.66f) { zone = 2; message = "Heavy Containment Zone "; sub = "<color=#431919>Heavy</color> containment zone"; }
-                    else if (chanceZone == 0.69f) { zone = 4; message = "All of the facility "; sub = "<color=#ff0000>All</color> of the facility"; }
-
-                    //zone = 3;
-                    Cassie.MessageTranslated("Door system malfunction in " + message + " in 5 seconds ", "Door system malfunction in " + sub + " in 5 seconds", false, false, true);
-                    //Log.Info($"wait cassie");
-                    Timing.WaitUntilTrue(() => Cassie.IsSpeaking);
-                    Timing.WaitUntilFalse(() => Cassie.IsSpeaking);
-                    //Log.Info($"wait cassie end");
-
-
-                    //Log.Info($"{rom.Name}");
-                    // Lcz
-                    if (zone == 1)
-                    {
-
-                        foreach(Room rom in Lcz)
-                        {
-
-                            foreach (Door d in rom.Doors)
-                            {
-                                if (!d.Type.ToString().Contains("Elevator"))
-                                {
-                                    //Log.Info($"{d.Name}");
-                                    d.Lock(Config.TempsPorteDS, DoorLockType.AdminCommand);
-                                    d.IsOpen = false;
-                                }
-
-                            }
-                        }
-
-
-                    }
-                    // Hcz
-                    if (zone == 2)
-                    {
-                        foreach (Room rom in Hcz)
-                        {
-                            foreach (Door d in rom.Doors)
-                            {
-                                if (!d.Type.ToString().Contains("Elevator"))
-                                {
-                                    //Log.Info($"{d.Name}");
-                                    d.Lock(Config.TempsPorteDS, DoorLockType.AdminCommand);
-                                    d.IsOpen = false;
-                                }
-
-                            }
-                        }
-                    }
-
-
-                    // Ez
-                    if (zone == 3)
-                    {
-                        foreach(Room rom in Ez )
-                        foreach (Door d in rom.Doors)
-                        {
-                            if (!d.Type.ToString().Contains("Elevator"))
-                            {
-                                //Log.Info($"{d.Name}");
-                                d.Lock(Config.TempsPorteDS, DoorLockType.AdminCommand);
-                                d.IsOpen = false;
-                            }
-
-                        }
-                        //Log.Info($"Entrance close");
-
-
-                    }
-                    // ALL
-                    if (zone == 4)
-                    {
-                        foreach (Room rom in all)
-                        {
-                            foreach (Door d in rom.Doors)
-                            {
-                                if (!d.Type.ToString().Contains("Elevator"))
-                                {
-                                    //Log.Info($"{d.Name}");
-                                    d.Lock(Config.TempsPorteDS, DoorLockType.AdminCommand);
-                                    d.IsOpen = false;
-                                }
-
-                            }
-                        }
-                    }
-
-                    if (zone == 1) rooms = Lcz;
-                    if (zone == 2) rooms = Hcz;
-                    if (zone == 3) rooms = Ez;
-                    if (zone == 4) rooms = all;
-
-                    Log.Info($"wait close");
-                    yield return Timing.WaitForSeconds(Config.TempsPorteDS);
-                    foreach (Room r in rooms)
-                    {
-                        foreach (Door d in r.Doors)
-                        {
-
-                            d.IsOpen = true;
-                        }
-                    }
-                    Log.Info($"Entrance open");
-
-
-                    // open da dor
-                    if (UnityEngine.Random.Range(0f, 1f) >= Config.ChancePorteDS)
-                    {
-                        Log.Info($"door close after");
-                        foreach (Room r in rooms)
-                        {
-
-                            foreach (Door d in r.Doors)
-                            {
-                                d.Unlock();
-                                Log.Info($"{d.Name}");
-                                d.IsOpen = false;
-                            }
-                        }
-
-                    }
-                    else Log.Info($"door open after");
-
-                    yield return Timing.WaitForSeconds(40);
-                }
-                //Blackout
-                else
-                {
-                    Log.Info($"Blackout");
-
-                }
-            }
-        }
-
-		/// <summary>
-		/// Initialize the Lists room objet variable
-		/// </summary>
-		public void InitRoom()
-		{
-            Ez = new List<Room>();
-			Hcz = new List<Room>();
-			Lcz = new List<Room>();
-			all = new List<Room>();
-
-			foreach (Room r in Room.List)
-			{
-                if (r.Type.ToString().Contains("Ez"))
-                {
-                    Ez.Add(r);
-                }
-                else if (r.Type.ToString().Contains("Hcz"))
-                {
-                    Hcz.Add(r);
-                }
-                else if ((r.Type.ToString().Contains("Lcz")))
-                {
-                    Lcz.Add(r); 
-                }
-                all.Add(r);
-
-			}
-            Log.Info($"All room loaded into variable");
-		}
-
 
         /// <summary>
         /// Activate or not the Friendly Fire
