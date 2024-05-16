@@ -226,7 +226,7 @@ namespace SCPSLCroissantExiled
 		}
 		public static void Init()
 		{
-
+			handles = new List<CoroutineHandle> ();
 			foreach (GlobalEvent globalEvent in activeGE)
 			{
 				Log.Info($"active Global events {globalEvent}");

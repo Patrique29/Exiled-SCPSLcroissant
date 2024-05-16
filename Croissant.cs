@@ -20,7 +20,9 @@ namespace SCPSLCroissantExiled
 {
     public class Croissant : Plugin<Config>
     {
-        private static Handlers.MapHandler _map;
+
+
+		private static Handlers.MapHandler _map;
         /// <summary>
         /// the handler of Scp173
         /// </summary>
@@ -44,7 +46,7 @@ namespace SCPSLCroissantExiled
         /// <summary>
         /// Priority of the Plugin the plugin list
         /// </summary>
-        public override PluginPriority Priority { get; } = PluginPriority.Lowest;
+        public override PluginPriority Priority { get; } = PluginPriority.High;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Croissant"/> class.
 		/// </summary>

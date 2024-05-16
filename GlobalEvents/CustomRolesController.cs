@@ -185,12 +185,13 @@ namespace SCPSLCroissantExiled.GE
 			int min = 2;
 			
 			for (; ;){
+				Log.Info(Round.IsEnded);
 				yield return Timing.WaitForSeconds(15f);
 
 				//Log.Info($"unrounded : {Round.ElapsedTime.TotalMinutes} | rounded : {Math.Floor(Round.ElapsedTime.TotalMinutes)}");
 				foreach (CustomRoles r in rolesActif)
 				{
-					/*
+					
 					if (r is Enfant enfant && Math.Floor(Round.ElapsedTime.TotalMinutes) == min)
 					{
 						min += 2;
@@ -199,7 +200,7 @@ namespace SCPSLCroissantExiled.GE
 					if(r is UltraDog)
 					{
 
-					}*/
+					}
 
 				}
 			}

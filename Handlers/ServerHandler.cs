@@ -25,11 +25,15 @@ namespace SCPSLCroissantExiled.Handlers
         private readonly Croissant _plugin;
         public void OnRoundStarted()
         {
-			
-            try
+            foreach (CoroutineHandle ch in GEC.handles)
+            {
+                Timing.KillCoroutines(ch);
+            }
+
+			try
             {
 				Log.Info($"Uninit the parameter of last round");
-				_ = Timing.KillCoroutines();
+				
 				GEC.UnInit();
 			}catch (Exception ex)
             {
@@ -42,7 +46,7 @@ namespace SCPSLCroissantExiled.Handlers
             }
 			Log.Info($"init new parameter");
 			//GEC.SetAllGE(new Type[] { typeof(Speed), typeof(SystemMalfunction),typeof(CustomRolesController),typeof(Yar), typeof(TPRandom), typeof(KillItWhileItsSmall) });
-            GEC.SetAllGE(new Type[] { typeof(Speed) });
+            GEC.SetAllGE(new Type[] { typeof(Speed), typeof(SystemMalfunction), typeof(CustomRolesController), typeof(Yar), typeof(TPRandom), typeof(KillItWhileItsSmall) });
 			Log.Info($"nb GE actif : {GEC.ChooseRandomGE()}");
 			GEC.Announcement();
 			GEC.Init();

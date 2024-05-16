@@ -114,11 +114,11 @@ namespace SCPSLCroissantExiled.GE
 				//Log.Info($"unrounded : {Round.ElapsedTime.TotalMinutes} | rounded : {Math.Floor(Round.ElapsedTime.TotalMinutes)}");
 				foreach (GlobalCustomRoles r in rolesActif)
 				{
-					/*if (r is Alzheimer a && Math.Floor(Round.ElapsedTime.TotalMinutes) == min)
+					if (r is Alzheimer a && Math.Floor(Round.ElapsedTime.TotalMinutes) == min)
 					{
 						min += 5;
 						a.TP();
-					}*/
+					}
 
 				}
 			}
